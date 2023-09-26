@@ -11,7 +11,7 @@ class Database {
   /** @type {BetterSQLite.Database} */
   static _db;
 
-  constructor() {}
+  constructor() { }
 
   db() {
     if (this._db) return this._db;
@@ -57,10 +57,11 @@ class Database {
   /** @param {Omit<import("../tipos/versao").Versao, "id">} versao  */
   inserirVersao(versao) {
     const db = this.db();
+    console.log(versao);
     const stmt = db.prepare(
       `INSERT INTO ${TABELA_VERSAO} (${COLUNA_NOME_VERSAO}, ${COLUNA_DOWNLOAD_VERSAO}, ${COLUNA_VERSAO_VERSAO}) VALUES (?, ?, ?)`
     );
-    const info = stmt.run(versao.nome, versao.download, versao.versao);
+    const info = stmt.run(versao.nome ? versao.nome : "", versao.download, versao.versao);
     return info.changes;
   }
 
