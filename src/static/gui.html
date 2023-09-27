@@ -161,7 +161,7 @@
   </body>
 </html>
 <script>
-  const dominio = `http://${window.location.hostname}${
+  const dominio = `${window.location.protocol}//${window.location.hostname}${
     window.location.port ? ":" + window.location.port : ""
   }/versao`;
   const versaoHolder = document.querySelector("#versao-holder");
