@@ -12,7 +12,7 @@ const port = 8080;
 app.use(json());
 app.use(cors());
 app.use("/versao", router);
-app.get("/gui", async (req, res) => {
+app.get("/", async (req, res) => {
   const caminho = process.cwd() + "/src/static/gui.html";
   res.sendFile(caminho);
 });
