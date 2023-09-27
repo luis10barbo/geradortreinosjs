@@ -27,16 +27,20 @@ class Database {
     return this._db;
   }
 
-  /** @returns {(import("../tipos/versao").Versao)[]} */
-  adquirirVersoes() {
+  /**
+   * @param {string} query
+   * @returns {(import("../tipos/versao").Versao)[]} */
+  adquirirVersoes(query) {
     const db = this.db();
+
+    const likeQuery = `%${query}%`;
 
     /** @type {any} */
     const res = db
       .prepare(
-        `SELECT * FROM ${TABELA_VERSAO} ORDER BY ${COLUNA_VERSAO_VERSAO} DESC`
+        `SELECT * FROM ${TABELA_VERSAO} WHERE ${COLUNA_NOME_VERSAO} LIKE ? OR ${COLUNA_DOWNLOAD_VERSAO} LIKE ? OR ${COLUNA_VERSAO_VERSAO} = ? ORDER BY ${COLUNA_VERSAO_VERSAO} DESC`
       )
-      .all();
+      .all(likeQuery, likeQuery, query);
 
     /** @type {import("../tipos/versao").Versao[]} */
     const versoes = res.map((res) => this.parseVersaoDb(res));
@@ -58,7 +62,7 @@ class Database {
   /** @param {Omit<import("../tipos/versao").Versao, "id">} versao  */
   inserirVersao(versao) {
     const db = this.db();
-    console.log(versao);
+
     const stmt = db.prepare(
       `INSERT INTO ${TABELA_VERSAO} (${COLUNA_NOME_VERSAO}, ${COLUNA_DOWNLOAD_VERSAO}, ${COLUNA_VERSAO_VERSAO}) VALUES (?, ?, ?)`
     );
@@ -76,7 +80,7 @@ class Database {
     const stmt = db.prepare(
       `UPDATE ${TABELA_VERSAO} SET ${COLUNA_NOME_VERSAO} = ?, ${COLUNA_DOWNLOAD_VERSAO} = ?, ${COLUNA_VERSAO_VERSAO} = ? WHERE ${COLUNA_ID_VERSAO} = ?`
     );
-    console.log(versao);
+
     const info = stmt.run(
       versao.nome,
       versao.download,

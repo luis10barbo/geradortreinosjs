@@ -5,7 +5,8 @@ import db from "../db/database.mjs";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const versoes = await db.adquirirVersoes();
+  const query = typeof req.query.s === "string" ? req.query.s : "";
+  const versoes = db.adquirirVersoes(query);
   res.json(versoes);
 });
 
