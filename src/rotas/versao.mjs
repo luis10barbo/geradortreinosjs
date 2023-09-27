@@ -3,11 +3,6 @@ import { Router } from "express";
 import db from "../db/database.mjs";
 
 const router = Router();
-router.get("/gui", async (req, res) => {
-  const caminho = process.cwd() + "/src/static/gui.html";
-  console.log(caminho);
-  res.sendFile(caminho);
-})
 
 router.get("/", async (req, res) => {
   const versoes = await db.adquirirVersoes();
@@ -42,8 +37,7 @@ router.post("/", async (req, res) => {
 
 router.delete("/", (req, res) => {
   console.log(req.body);
-  if (!req.body.id)
-    return res.json(new Error("No id provided"));
+  if (!req.body.id) return res.json(new Error("No id provided"));
   res.json(db.deletarVersao(req.body.id));
 });
 

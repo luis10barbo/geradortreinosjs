@@ -1,166 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerador Treino Backend</title>
-</head>
-<style>
-    *, *::after, *::before {
-        box-sizing: border-box;
+  </head>
+  <style>
+    *,
+    *::after,
+    *::before {
+      box-sizing: border-box;
     }
-    input, button {
-        padding: 0.5rem;
-        background-color: rgb(245, 245, 245);
-        outline: none;
-        border: 1px solid rgb(230, 230, 230);
-        border-radius: 0.25rem;
+    input,
+    button {
+      padding: 0.5rem;
+      background-color: rgb(245, 245, 245);
+      outline: none;
+      border: 1px solid rgb(230, 230, 230);
+      border-radius: 0.25rem;
     }
 
-    input:hover, button:hover {
-        background-color: rgb(230, 230, 230);
-        cursor: pointer;
+    input:hover,
+    button:hover {
+      background-color: rgb(230, 230, 230);
+      cursor: pointer;
     }
 
     button {
-        
     }
     .flex {
-        display: flex;
-        gap:0.5rem
+      display: flex;
+      gap: 0.5rem;
     }
     #versao-holder {
-        display:flex;
-        flex-direction: column;
-        width: 100%;
-        gap:0.5rem;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 0.5rem;
     }
     .versao {
-        display: flex;
-        flex-direction: column;
-        gap:1rem;
-        width: 100%;
-        padding: 1.5rem;
-        border: 1px solid rgb(230, 230, 230);
-        border-radius: 0.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      padding: 1.5rem;
+      border: 1px solid rgb(230, 230, 230);
+      border-radius: 0.25rem;
     }
     .versao-titulo {
-        width: 100%;
+      width: 100%;
     }
     p {
-        margin: 0;
+      margin: 0;
     }
     body {
-        display:flex;
-        flex-direction: column;
-        width: 350px;
-        align-items: center;
-        gap:0.5rem;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 500px;
+      align-items: center;
+      gap: 0.5rem;
     }
     html {
-        display: flex;
-        justify-content: center;
+      display: flex;
+      justify-content: center;
     }
     #pesquisa-holder {
-        width: 100%;
+      width: 100%;
     }
-    #input-pesquisar-versao, #button-pesquisar-versao {
-        width: 100%;
+    #input-pesquisar-versao,
+    #button-pesquisar-versao {
+      width: 100%;
     }
     .criar-holder {
-        max-width: 100%;
-        display: flex;
-        gap:0.5rem;
+      max-width: 100%;
+      display: flex;
+      gap: 0.5rem;
     }
     .criar-holder > input {
-        width: 100%;
-        flex:1;
+      width: 100%;
+      flex: 1;
     }
 
     #add-versao {
-        background-color: rgb(236, 255, 213);
-        color:rgb(43, 78, 0);
+      background-color: rgb(236, 255, 213);
+      color: rgb(43, 78, 0);
+      border: 1px solid rgb(208, 236, 173);
+      width: 73px;
     }
     #add-versao:hover {
-        background-color: rgb(226, 255, 190);
+      background-color: rgb(226, 255, 190);
     }
-</style>
-<body>
+  </style>
+  <body>
     <div id="pesquisa-holder" class="flex">
-        <input type="text" placeholder="Pesquisar versao" id="input-pesquisar-versao">
-        <button id="pesquisar-versao">Pesquisar</button>    
+      <input
+        type="text"
+        placeholder="Pesquisar versao"
+        id="input-pesquisar-versao"
+      />
+      <button id="pesquisar-versao">Pesquisar</button>
     </div>
     <div class="criar-holder">
-        <input id="add-nome-versao" type="text" placeholder="Nome Versao (Opcional)">
-        <input id="add-download-versao" type="text" placeholder="Download">
-        <input id="add-versao-versao" type="number" placeholder="Versao">
-        <button id="add-versao" id="adicionar">Adicionar</button>
+      <input
+        id="add-nome-versao"
+        type="text"
+        placeholder="Nome Versao (Opcional)"
+      />
+      <input id="add-download-versao" type="text" placeholder="Download" />
+      <input id="add-versao-versao" type="number" placeholder="Versao" />
+      <button id="add-versao" id="adicionar">Adicionar</button>
     </div>
     <div id="versao-holder">
-        <template id="template-versao">
-            <div class="versao">
-                <div class="flex">
-                    <p class="versao-titulo">Titulo</p>
-                    <p class="versao-versao">v0.3</p>
-                </div>
-                
-                <p><a class="versao-download" href="">https://www.teste.com</a></p>
-                <div class="flex">
-                    <button class="editar-versao">Editar Versao</button>
-                    <button class="remover-versao">Remover Versao</button> 
-                </div>
-            </div>
-        </template>
-        
+      <template id="template-versao">
+        <div class="versao">
+          <div class="flex">
+            <p class="versao-titulo">Titulo</p>
+            <p class="versao-versao">v0.3</p>
+          </div>
+
+          <p><a class="versao-download" href="">https://www.teste.com</a></p>
+          <div class="flex">
+            <button class="editar-versao">Editar Versao</button>
+            <button class="remover-versao">Remover Versao</button>
+          </div>
+        </div>
+      </template>
     </div>
-</body>
+  </body>
 </html>
 <script>
-    const dominio = "http://localhost:8080/versao";
-    const versaoHolder = document.querySelector("#versao-holder");
-    const templateVersao = document.querySelector("#template-versao");
+  const dominio = `http://${window.location.hostname}${
+    window.location.port ? ":" + window.location.port : ""
+  }/versao`;
+  const versaoHolder = document.querySelector("#versao-holder");
+  const templateVersao = document.querySelector("#template-versao");
 
-    async function adquirirVersoes() {
-        const res = await fetch(dominio, { method: "GET", headers: {"accept": "application/json"}})
-        const versoes = await res.json();
-        console.log(versoes);
-        versaoHolder.innerHTML = "";
-        versoes.forEach(versao => {
-            const template = document.createElement("template");
-            template.innerHTML = templateVersao.innerHTML;
-            template.content.querySelector(".versao-titulo").innerHTML = versao.nome ? versao.nome : "Sem titulo"; 
-            template.content.querySelector(".versao-versao").innerHTML = "v"+versao.versao.toFixed(2);
-            template.content.querySelector(".versao-download").innerHTML = versao.download;
-            template.content.querySelector(".editar-versao").addEventListener("click", async () => {
-                adquirirVersoes();
-            });
-            template.content.querySelector(".remover-versao").addEventListener("click", async () => {
-                await fetch(dominio, {method:"DELETE", body: JSON.stringify({
-                    id: versao.id
-                }), headers: {
-                    "Content-Type": "application/json"
-                }});
-                adquirirVersoes();
-
-            });
-            versaoHolder.appendChild(template.content.firstElementChild);
-            
-            // versaoHolder.appendChild(versaoNode);
+  async function adquirirVersoes() {
+    const res = await fetch(dominio, {
+      method: "GET",
+      headers: { accept: "application/json" },
+    });
+    const versoes = await res.json();
+    versaoHolder.innerHTML = "";
+    versoes.forEach((versao) => {
+      const template = document.createElement("template");
+      template.innerHTML = templateVersao.innerHTML;
+      template.content.querySelector(".versao-titulo").innerHTML = versao.nome
+        ? versao.nome
+        : "Sem titulo";
+      template.content.querySelector(".versao-versao").innerHTML =
+        "v" + versao.versao.toFixed(2);
+      template.content.querySelector(".versao-download").innerHTML =
+        versao.download;
+      template.content
+        .querySelector(".editar-versao")
+        .addEventListener("click", async () => {
+          adquirirVersoes();
         });
-        
-    }
-    adquirirVersoes();
+      template.content
+        .querySelector(".remover-versao")
+        .addEventListener("click", async () => {
+          await fetch(dominio, {
+            method: "DELETE",
+            body: JSON.stringify({
+              id: versao.id,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          adquirirVersoes();
+        });
+      versaoHolder.appendChild(template.content.firstElementChild);
 
-    document.querySelector("#add-versao").addEventListener("click", async () => {
-        const versao = {
-            nome: document.querySelector("#add-nome-versao").value,
-            download: document.querySelector("#add-download-versao").value,
-            versao: Number.parseFloat(document.querySelector("#add-versao-versao").value)
-        }
-        console.log(versao);
-        await fetch(dominio, {method: "POST", headers: {
-            "Content-Type": "application/json"
-        }, body: JSON.stringify(versao)})
-        adquirirVersoes();
-    })
+      // versaoHolder.appendChild(versaoNode);
+    });
+  }
+  adquirirVersoes();
+
+  document.querySelector("#add-versao").addEventListener("click", async () => {
+    const versao = {
+      nome: document.querySelector("#add-nome-versao").value,
+      download: document.querySelector("#add-download-versao").value,
+      versao: Number.parseFloat(
+        document.querySelector("#add-versao-versao").value
+      ),
+    };
+
+    await fetch(dominio, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(versao),
+    });
+    adquirirVersoes();
+  });
 </script>

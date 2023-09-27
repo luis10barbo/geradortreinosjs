@@ -11,7 +11,7 @@ class Database {
   /** @type {BetterSQLite.Database} */
   static _db;
 
-  constructor() { }
+  constructor() {}
 
   db() {
     if (this._db) return this._db;
@@ -44,6 +44,7 @@ class Database {
   }
 
   parseVersaoDb(res) {
+    if (!res) return;
     /** @type {import("../tipos/versao").Versao} */
     const resultado = {
       download: res[COLUNA_DOWNLOAD_VERSAO],
@@ -61,7 +62,11 @@ class Database {
     const stmt = db.prepare(
       `INSERT INTO ${TABELA_VERSAO} (${COLUNA_NOME_VERSAO}, ${COLUNA_DOWNLOAD_VERSAO}, ${COLUNA_VERSAO_VERSAO}) VALUES (?, ?, ?)`
     );
-    const info = stmt.run(versao.nome ? versao.nome : "", versao.download, versao.versao);
+    const info = stmt.run(
+      versao.nome ? versao.nome : "",
+      versao.download,
+      versao.versao
+    );
     return info.changes;
   }
 
