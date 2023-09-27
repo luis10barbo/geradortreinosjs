@@ -165,6 +165,10 @@
   const versaoHolder = document.querySelector("#versao-holder");
   const templateVersao = document.querySelector("#template-versao");
 
+  const inputPesquisarVersao = document.querySelector(
+    "#input-pesquisar-versao"
+  );
+
   const criarHolder = document.querySelector(".criar-holder");
   const editHolder = document.querySelector(".editar-holder");
   const editDownload = document.querySelector("#edit-download-versao");
@@ -174,7 +178,7 @@
   let idEdicao = undefined;
 
   async function adquirirVersoes() {
-    const res = await fetch(dominio, {
+    const res = await fetch(dominio + `?q=${inputPesquisarVersao.value}`, {
       method: "GET",
       headers: { accept: "application/json" },
     });
@@ -231,7 +235,11 @@
     });
   }
   adquirirVersoes();
-
+  document
+    .querySelector("#pesquisar-versao")
+    .addEventListener("click", async () => {
+      adquirirVersoes();
+    });
   document.querySelector("#add-versao").addEventListener("click", async () => {
     const versao = {
       nome: document.querySelector("#add-nome-versao").value,
@@ -250,7 +258,6 @@
     });
     adquirirVersoes();
   });
-
   document.querySelector("#edit-versao").addEventListener("click", async () => {
     const versao = {
       id: idEdicao,
