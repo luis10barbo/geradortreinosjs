@@ -193,6 +193,7 @@
         "v" + versao.versao.toFixed(2);
       template.content.querySelector(".versao-download").innerHTML =
         versao.download;
+      template.content.querySelector(".versao-download").href = versao.download;
       template.content
         .querySelector(".editar-versao")
         .addEventListener("click", async () => {
