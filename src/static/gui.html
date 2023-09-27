@@ -68,7 +68,8 @@
       display: flex;
       justify-content: center;
     }
-    #pesquisa-holder {
+    #pesquisa-holder,
+    #input-senha-acesso {
       width: 100%;
     }
     #input-pesquisar-versao,
@@ -111,6 +112,7 @@
     }
   </style>
   <body>
+    <input type="password" placeholder="Senha Acesso" id="input-senha-acesso" />
     <div id="pesquisa-holder" class="flex">
       <input
         type="text"
@@ -168,6 +170,7 @@
   const inputPesquisarVersao = document.querySelector(
     "#input-pesquisar-versao"
   );
+  const inputSenhaAcesso = document.querySelector("#input-senha-acesso");
 
   const criarHolder = document.querySelector(".criar-holder");
   const editHolder = document.querySelector(".editar-holder");
@@ -220,6 +223,7 @@
           await fetch(dominio, {
             method: "DELETE",
             body: JSON.stringify({
+              senha: inputSenhaAcesso.value,
               id: versao.id,
             }),
             headers: {
@@ -242,6 +246,7 @@
     });
   document.querySelector("#add-versao").addEventListener("click", async () => {
     const versao = {
+      senha: inputSenhaAcesso.value,
       nome: document.querySelector("#add-nome-versao").value,
       download: document.querySelector("#add-download-versao").value,
       versao: Number.parseFloat(
@@ -260,6 +265,8 @@
   });
   document.querySelector("#edit-versao").addEventListener("click", async () => {
     const versao = {
+      senha: inputSenhaAcesso.value,
+
       id: idEdicao,
       nome: document.querySelector("#edit-nome-versao").value,
       download: document.querySelector("#edit-download-versao").value,

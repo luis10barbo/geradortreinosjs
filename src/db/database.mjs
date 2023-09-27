@@ -61,6 +61,7 @@ class Database {
 
   /** @param {Omit<import("../tipos/versao").Versao, "id">} versao  */
   inserirVersao(versao) {
+    if (!versao.download || !versao.versao) return -1;
     const db = this.db();
 
     const stmt = db.prepare(
@@ -76,6 +77,8 @@ class Database {
 
   /** @param {import("../tipos/versao").Versao} versao  */
   atualizarVersao(versao) {
+    if (!versao.download || !versao.versao) return -1;
+
     const db = this.db();
     const stmt = db.prepare(
       `UPDATE ${TABELA_VERSAO} SET ${COLUNA_NOME_VERSAO} = ?, ${COLUNA_DOWNLOAD_VERSAO} = ?, ${COLUNA_VERSAO_VERSAO} = ? WHERE ${COLUNA_ID_VERSAO} = ?`

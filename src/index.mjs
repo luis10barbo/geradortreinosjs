@@ -1,7 +1,11 @@
 // @ts-check
 import Express, { json } from "express";
 import router from "./rotas/versao.mjs";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 import cors from "cors";
+dotenv.config();
+
 const app = Express();
 const port = 8080;
 
