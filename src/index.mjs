@@ -10,7 +10,6 @@ app.use(cors());
 app.use("/versao", router);
 app.get("/gui", async (req, res) => {
   const caminho = process.cwd() + "/src/static/gui.html";
-  console.log(caminho);
   res.sendFile(caminho);
 });
 

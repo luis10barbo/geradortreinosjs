@@ -76,6 +76,7 @@ class Database {
     const stmt = db.prepare(
       `UPDATE ${TABELA_VERSAO} SET ${COLUNA_NOME_VERSAO} = ?, ${COLUNA_DOWNLOAD_VERSAO} = ?, ${COLUNA_VERSAO_VERSAO} = ? WHERE ${COLUNA_ID_VERSAO} = ?`
     );
+    console.log(versao);
     const info = stmt.run(
       versao.nome,
       versao.download,

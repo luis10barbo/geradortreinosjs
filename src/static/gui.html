@@ -23,10 +23,10 @@
     input:hover,
     button:hover {
       background-color: rgb(230, 230, 230);
-      cursor: pointer;
     }
 
     button {
+      cursor: pointer;
     }
     .flex {
       display: flex;
@@ -37,6 +37,9 @@
       flex-direction: column;
       width: 100%;
       gap: 0.5rem;
+    }
+    #versao-holder > .editando {
+      box-shadow: 0px 0px 4px 1px rgba(191, 223, 158, 0.66);
     }
     .versao {
       display: flex;
@@ -72,12 +75,14 @@
     #button-pesquisar-versao {
       width: 100%;
     }
-    .criar-holder {
+    .criar-holder,
+    .editar-holder {
       max-width: 100%;
       display: flex;
       gap: 0.5rem;
     }
-    .criar-holder > input {
+    .criar-holder > input,
+    .editar-holder > input {
       width: 100%;
       flex: 1;
     }
@@ -90,6 +95,19 @@
     }
     #add-versao:hover {
       background-color: rgb(226, 255, 190);
+    }
+
+    #edit-cancelar {
+      background-color: rgb(255, 217, 213);
+      color: rgb(78, 15, 0);
+      border: 1px solid rgb(236, 185, 173);
+      width: 73px;
+    }
+    #edit-cancelar:hover {
+      background-color: rgb(255, 210, 206);
+    }
+    .hidden {
+      display: none;
     }
   </style>
   <body>
@@ -110,6 +128,17 @@
       <input id="add-download-versao" type="text" placeholder="Download" />
       <input id="add-versao-versao" type="number" placeholder="Versao" />
       <button id="add-versao" id="adicionar">Adicionar</button>
+    </div>
+    <div class="editar-holder hidden">
+      <input
+        id="edit-nome-versao"
+        type="text"
+        placeholder="Nome Versao (Opcional)"
+      />
+      <input id="edit-download-versao" type="text" placeholder="Download" />
+      <input id="edit-versao-versao" type="number" placeholder="Versao" />
+      <button id="edit-versao" id="adicionar">Editar</button>
+      <button id="edit-cancelar" id="adicionar">Cancelar</button>
     </div>
     <div id="versao-holder">
       <template id="template-versao">
@@ -136,6 +165,14 @@
   const versaoHolder = document.querySelector("#versao-holder");
   const templateVersao = document.querySelector("#template-versao");
 
+  const criarHolder = document.querySelector(".criar-holder");
+  const editHolder = document.querySelector(".editar-holder");
+  const editDownload = document.querySelector("#edit-download-versao");
+  const editNome = document.querySelector("#edit-nome-versao");
+  const editVersao = document.querySelector("#edit-versao-versao");
+
+  let idEdicao = undefined;
+
   async function adquirirVersoes() {
     const res = await fetch(dominio, {
       method: "GET",
@@ -145,7 +182,10 @@
     versaoHolder.innerHTML = "";
     versoes.forEach((versao) => {
       const template = document.createElement("template");
+
       template.innerHTML = templateVersao.innerHTML;
+
+      template.content.firstElementChild.id = `versao-${versao.id}`;
       template.content.querySelector(".versao-titulo").innerHTML = versao.nome
         ? versao.nome
         : "Sem titulo";
@@ -156,7 +196,18 @@
       template.content
         .querySelector(".editar-versao")
         .addEventListener("click", async () => {
-          adquirirVersoes();
+          idEdicao = versao.id;
+          editHolder.classList.remove("hidden");
+          criarHolder.classList.add("hidden");
+
+          editDownload.value = versao.download;
+          editNome.value = versao.nome;
+          editVersao.value = versao.versao.toFixed(2);
+
+          await adquirirVersoes();
+          document
+            .querySelector(`#versao-${versao.id}`)
+            .classList.add("editando");
         });
       template.content
         .querySelector(".remover-versao")
@@ -172,6 +223,7 @@
           });
           adquirirVersoes();
         });
+
       versaoHolder.appendChild(template.content.firstElementChild);
 
       // versaoHolder.appendChild(versaoNode);
@@ -195,6 +247,31 @@
       },
       body: JSON.stringify(versao),
     });
+    adquirirVersoes();
+  });
+
+  document.querySelector("#edit-versao").addEventListener("click", async () => {
+    const versao = {
+      id: idEdicao,
+      nome: document.querySelector("#edit-nome-versao").value,
+      download: document.querySelector("#edit-download-versao").value,
+      versao: Number.parseFloat(
+        document.querySelector("#edit-versao-versao").value
+      ),
+    };
+
+    await fetch(dominio, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(versao),
+    });
+    adquirirVersoes();
+  });
+  document.querySelector("#edit-cancelar").addEventListener("click", () => {
+    editHolder.classList.add("hidden");
+    criarHolder.classList.remove("hidden");
     adquirirVersoes();
   });
 </script>

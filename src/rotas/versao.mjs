@@ -15,7 +15,6 @@ router.get("/ultima", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log("Teste -> " + req.body.versao);
   if (req.body.id) {
     // Modificar
     const dif = db.atualizarVersao({
@@ -36,7 +35,6 @@ router.post("/", async (req, res) => {
 });
 
 router.delete("/", (req, res) => {
-  console.log(req.body);
   if (!req.body.id) return res.json(new Error("No id provided"));
   res.json(db.deletarVersao(req.body.id));
 });
