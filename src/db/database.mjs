@@ -6,6 +6,7 @@ const COLUNA_ID_VERSAO = "idVersao";
 const COLUNA_NOME_VERSAO = "nomeVersao";
 const COLUNA_DOWNLOAD_VERSAO = "downloadVersao";
 const COLUNA_VERSAO_VERSAO = "versaoVersao";
+const COLUNA_DESCRICAO_VERSAO = "descricaoVersao";
 
 class Database {
   /** @type {BetterSQLite.Database} */
@@ -21,6 +22,7 @@ class Database {
     this._db.exec(`CREATE TABLE IF NOT EXISTS ${TABELA_VERSAO} (
         ${COLUNA_ID_VERSAO} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${COLUNA_NOME_VERSAO} TEXT,
+        ${COLUNA_DESCRICAO_VERSAO} TEXT,
         ${COLUNA_VERSAO_VERSAO} DECIMAL(5,3) NOT NULL,
         ${COLUNA_DOWNLOAD_VERSAO} TEXT NOT NULL
     )`);
@@ -54,6 +56,7 @@ class Database {
       download: res[COLUNA_DOWNLOAD_VERSAO],
       id: res[COLUNA_ID_VERSAO],
       versao: res[COLUNA_VERSAO_VERSAO],
+      descricao: res[COLUNA_DESCRICAO_VERSAO],
       nome: res[COLUNA_NOME_VERSAO],
     };
     return resultado;
@@ -65,12 +68,13 @@ class Database {
     const db = this.db();
 
     const stmt = db.prepare(
-      `INSERT INTO ${TABELA_VERSAO} (${COLUNA_NOME_VERSAO}, ${COLUNA_DOWNLOAD_VERSAO}, ${COLUNA_VERSAO_VERSAO}) VALUES (?, ?, ?)`
+      `INSERT INTO ${TABELA_VERSAO} (${COLUNA_NOME_VERSAO}, ${COLUNA_DOWNLOAD_VERSAO}, ${COLUNA_VERSAO_VERSAO}, ${COLUNA_DESCRICAO_VERSAO}) VALUES (?, ?, ?, ?)`
     );
     const info = stmt.run(
       versao.nome ? versao.nome : "",
       versao.download,
-      versao.versao
+      versao.versao,
+      versao.descricao
     );
     return info.changes;
   }
@@ -81,13 +85,14 @@ class Database {
 
     const db = this.db();
     const stmt = db.prepare(
-      `UPDATE ${TABELA_VERSAO} SET ${COLUNA_NOME_VERSAO} = ?, ${COLUNA_DOWNLOAD_VERSAO} = ?, ${COLUNA_VERSAO_VERSAO} = ? WHERE ${COLUNA_ID_VERSAO} = ?`
+      `UPDATE ${TABELA_VERSAO} SET ${COLUNA_NOME_VERSAO} = ?, ${COLUNA_DOWNLOAD_VERSAO} = ?, ${COLUNA_VERSAO_VERSAO} = ?, ${COLUNA_DESCRICAO_VERSAO} = ? WHERE ${COLUNA_ID_VERSAO} = ?`
     );
 
     const info = stmt.run(
       versao.nome,
       versao.download,
       versao.versao,
+      versao.descricao,
       versao.id
     );
     return info;

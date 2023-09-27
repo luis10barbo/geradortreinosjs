@@ -27,6 +27,7 @@ router.post("/", async (req, res) => {
       nome: req.body.nome,
       download: req.body.download,
       versao: req.body.versao,
+      descricao: req.body.descricao,
     });
     return res.json(dif);
   }
@@ -35,6 +36,7 @@ router.post("/", async (req, res) => {
     nome: req.body.nome,
     download: req.body.download,
     versao: req.body.versao,
+    descricao: req.body.descricao,
   });
   return res.json(dif);
 });

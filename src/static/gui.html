@@ -12,7 +12,8 @@
       box-sizing: border-box;
     }
     input,
-    button {
+    button,
+    textarea {
       padding: 0.5rem;
       background-color: rgb(245, 245, 245);
       outline: none;
@@ -39,7 +40,7 @@
       gap: 0.5rem;
     }
     #versao-holder > .editando {
-      box-shadow: 0px 0px 4px 1px rgba(191, 223, 158, 0.66);
+      box-shadow: 0px 0px 10px 1px rgba(191, 191, 191, 0.66);
     }
     .versao {
       display: flex;
@@ -81,11 +82,17 @@
       max-width: 100%;
       display: flex;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
     .criar-holder > input,
+    .criar-holder > textarea {
+      width: 100%;
+      flex: 1;
+    }
     .editar-holder > input {
       width: 100%;
       flex: 1;
+      min-width: 150px;
     }
 
     #add-versao {
@@ -109,6 +116,9 @@
     }
     .hidden {
       display: none;
+    }
+    textarea {
+      width: 100%;
     }
   </style>
   <body>
@@ -139,6 +149,12 @@
       />
       <input id="edit-download-versao" type="text" placeholder="Download" />
       <input id="edit-versao-versao" type="number" placeholder="Versao" />
+      <textarea
+        id="edit-descricao-versao"
+        type="text"
+        placeholder="Descricao"
+      ></textarea>
+
       <button id="edit-versao" id="adicionar">Editar</button>
       <button id="edit-cancelar" id="adicionar">Cancelar</button>
     </div>
@@ -149,7 +165,7 @@
             <p class="versao-titulo">Titulo</p>
             <p class="versao-versao">v0.3</p>
           </div>
-
+          <p class="versao-descricao"></p>
           <p><a class="versao-download" href="">https://www.teste.com</a></p>
           <div class="flex">
             <button class="editar-versao">Editar Versao</button>
@@ -177,6 +193,7 @@
   const editDownload = document.querySelector("#edit-download-versao");
   const editNome = document.querySelector("#edit-nome-versao");
   const editVersao = document.querySelector("#edit-versao-versao");
+  const editDescricao = document.querySelector("#edit-descricao-versao");
 
   let idEdicao = undefined;
 
@@ -201,6 +218,8 @@
       template.content.querySelector(".versao-download").innerHTML =
         versao.download;
       template.content.querySelector(".versao-download").href = versao.download;
+      template.content.querySelector(".versao-descricao").textContent =
+        versao.descricao;
       template.content
         .querySelector(".editar-versao")
         .addEventListener("click", async () => {
@@ -211,6 +230,7 @@
           editDownload.value = versao.download;
           editNome.value = versao.nome;
           editVersao.value = versao.versao.toFixed(2);
+          editDescricao.value = versao.descricao;
 
           await adquirirVersoes();
           document
@@ -268,11 +288,10 @@
       senha: inputSenhaAcesso.value,
 
       id: idEdicao,
-      nome: document.querySelector("#edit-nome-versao").value,
-      download: document.querySelector("#edit-download-versao").value,
-      versao: Number.parseFloat(
-        document.querySelector("#edit-versao-versao").value
-      ),
+      nome: editNome.value,
+      download: editDownload.value,
+      versao: Number.parseFloat(editVersao.value),
+      descricao: editDescricao.value,
     };
 
     await fetch(dominio, {
